@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ArticleController extends Controller
 {
     public function __construct(
-        public readonly ArticleService $service,
+        public readonly ArticleService $articleService,
     ) {}
 
     /**
@@ -17,7 +17,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = $this->service->paginate();
+        $articles = $this->articleService->paginate();
         return view('pages.articles.index', compact('articles'));
     }
 
@@ -34,7 +34,7 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        $this->service->store($request);
+        $this->articleService->store($request);
         return redirect(route('articles.index'))->with('message', 'Noticia salva.');
     }
 
@@ -43,7 +43,7 @@ class ArticleController extends Controller
      */
     public function show(int $id)
     {
-        $article = $this->service->get($id);
+        $article = $this->articleService->get($id);
         return view('pages.articles.show', compact('article'));
     }
 
