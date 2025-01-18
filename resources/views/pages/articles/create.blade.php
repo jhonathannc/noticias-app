@@ -6,7 +6,7 @@
 
     <div class="gap-2 text-black flex flex-row">
       <label for="title">Título da notícia</label>
-      <input id="title" name="title" required class="bg-gray-200"/>
+      <input id="title" name="title" required class="bg-gray-200" value="{{ old('title') }}"/>
     </div>
 
     <div class="gap-2 text-black flex flex-row my-4">
@@ -18,6 +18,14 @@
           <option value="" disabled>Nenhuma categoria cadastrada.</option>
         @endforelse
       </select>
+
+      <a
+        href="{{ route('categories.create') }}"
+        class="ml-2 w-8 h-8 bg-gray-500 hover:bg-gray-300 text-white hover:text-black font-bold rounded-full cursor-pointer text-center pt-0.5"
+        title="Cadastrar nova categoria"
+      >
+        +
+      </a>
     </div>
 
     <div class="gap-2 text-black flex flex-row my-4">
