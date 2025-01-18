@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Article\StoreArticleRequest;
 use App\Services\ArticleService;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
     public function __construct(
         public readonly ArticleService $articleService,
+        public readonly CategoryService $categoryService,
     ) {}
 
     /**
@@ -26,7 +28,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('pages.articles.create');
+        $categories = $this->categoryService->paginate();
+        return view('pages.articles.create', compact('categories'));
     }
 
     /**
