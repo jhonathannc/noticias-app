@@ -1,0 +1,46 @@
+version: "3.3"
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    # image: registry.gitlab.com/vm-agro/vm-agro-digital-back:latest
+    container_name: noticias-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www:rw
+    networks:
+      - noticiasNetwork
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  nginx:
+    image: nginx:1.22-alpine
+    container_name: noticias-nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www:rw
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - noticiasNetwork
+  database:
+    image: mysql:8.0
+    container_name: noticias-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: "noticias_app"
+      MYSQL_ROOT_PASSWORD: "DKfB4az51=_e"
+    volumes:
+      - ./docker-compose/mysql/dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - noticiasNetwork
+
+networks:
+  noticiasNetwork:
+    driver: bridge
