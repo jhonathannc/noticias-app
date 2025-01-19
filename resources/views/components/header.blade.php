@@ -6,7 +6,7 @@
             <x-button-nav href="{{ route('articles.index') }}" text="Exibir noticias" />
             <form method="POST" action="{{ route('search.index') }}">
                 @csrf
-                <input type="text">
+                <input type="text" name="search" />
             </form>
         </div>
     </div>
