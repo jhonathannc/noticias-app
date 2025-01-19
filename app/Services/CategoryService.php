@@ -13,9 +13,8 @@ final class CategoryService
         return Category::paginate();
     }
 
-    public function store(StoreCategoryRequest $request): Category
+    public function store(array $data): Category
     {
-        $data = $request->validated();
         return Category::create($data);
     }
 }

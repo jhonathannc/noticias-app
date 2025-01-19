@@ -33,7 +33,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $this->categoryService->store($request);
+        $this->categoryService->store($request->validated());
         return redirect(route('articles.create'))->with('message', 'Categoria salva.');
     }
 

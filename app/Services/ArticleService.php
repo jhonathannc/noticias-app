@@ -19,9 +19,8 @@ final class ArticleService
         return Article::paginate();
     }
 
-    public function store(StoreArticleRequest $request): Article
+    public function store(array $data): Article
     {
-        $data = $request->validated();
         return Article::create($data);
     }
 }

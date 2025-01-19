@@ -37,7 +37,7 @@ class ArticleController extends Controller
      */
     public function store(StoreArticleRequest $request)
     {
-        $this->articleService->store($request);
+        $this->articleService->store($request->validated());
         return redirect(route('articles.index'))->with('message', 'Noticia salva.');
     }
 
