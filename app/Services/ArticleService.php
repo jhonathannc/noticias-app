@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Article\StoreArticleRequest;
 use App\Models\Article;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 final class ArticleService
 {
@@ -16,11 +14,13 @@ final class ArticleService
 
     public function paginate(): LengthAwarePaginator
     {
-        return Article::paginate();
+        return Article::with('categories')->paginate();
     }
 
     public function store(array $data): Article
     {
-        return Article::create($data);
+        $article = Article::create($data);
+        $article->categories()->sync([$data['category_id']]);
+        return $article;
     }
 }

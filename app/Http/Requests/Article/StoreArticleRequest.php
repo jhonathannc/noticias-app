@@ -23,7 +23,8 @@ class StoreArticleRequest extends FormRequest
     {
         return [
             'title' => ['required', 'max:255'],
-            'content' => ['required']
+            'content' => ['required'],
+            'category_id' => ['required', 'exists:categories,id']
         ];
     }
 }
