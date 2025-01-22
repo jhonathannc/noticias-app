@@ -2,11 +2,22 @@
 
 namespace App\Services;
 
+use App\Contracts\ArticleServiceInterface;
+use App\Contracts\Repositories\ArticleRepositoryInterface;
 use App\Models\Article;
+use App\Repositories\ArticleRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
-final class ArticleService
+class ArticleService implements ArticleServiceInterface
 {
+    private ArticleRepositoryInterface $repository;
+
+    public function __construct()
+    {
+        $this->repository = app(ArticleRepository::class);
+    }
+
     public function get(int $id): Article
     {
         return Article::find($id);
@@ -14,13 +25,21 @@ final class ArticleService
 
     public function paginate(): LengthAwarePaginator
     {
-        return Article::with('categories')->paginate();
+        $cachedPaginate = Cache::remember('categories.index', 3600, function () {
+            return Article::with('categories')->paginate();
+        });
+
+        return $cachedPaginate;
     }
 
+    /**
+     * esse fmetodo daz isso e assado
+     */
     public function store(array $data): Article
     {
-        $article = Article::create($data);
-        $article->categories()->sync([$data['category_id']]);
-        return $article;
+        // $article = Article::create($data);
+        // $article->categories()->sync([$data['category_id']]);
+        // return $article;
+        return $this->repository->store($data);
     }
 }
